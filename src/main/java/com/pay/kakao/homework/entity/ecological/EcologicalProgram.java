@@ -1,5 +1,6 @@
 package com.pay.kakao.homework.entity.ecological;
 
+import com.pay.kakao.homework.entity.common.AuditEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-public class EcologicalProgram {
+public class EcologicalProgram extends AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
