@@ -1,8 +1,8 @@
-package com.pay.kakao.homework.controller.ecological;
+package com.pay.kakao.homework.controller.eco;
 
-import com.pay.kakao.homework.controller.ecological.dto.EcologicalProgramFileDto;
-import com.pay.kakao.homework.controller.ecological.mapper.EcologicalProgramMapper;
-import com.pay.kakao.homework.service.ecological.EcologicalService;
+import com.pay.kakao.homework.controller.eco.dto.EcoProgramFileDto;
+import com.pay.kakao.homework.controller.eco.mapper.EcoProgramMapper;
+import com.pay.kakao.homework.service.eco.EcoService;
 import com.pay.kakao.homework.utils.CSVUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,22 +15,22 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/ecological/file")
+@RequestMapping("/api/eco/file")
 @RequiredArgsConstructor
-public class EcologicalFileController {
-    private final EcologicalService ecologicalService;
-    private final EcologicalProgramMapper ecologicalProgramMapper;
+public class EcoFileController {
+    private final EcoService ecoService;
+    private final EcoProgramMapper ecoProgramMapper;
 
     @PostMapping("read")
     public ResponseEntity readEcologicalList(@RequestParam("file") MultipartFile file) {
-        List<EcologicalProgramFileDto> data;
+        List<EcoProgramFileDto> data;
 
         data = CSVUtils.convertMultipartFileToBeanList(
                 file
-                , EcologicalProgramFileDto.class
+                , EcoProgramFileDto.class
                 , new String[]{"id","name","themes","serviceRegion","summary","description"});
 
-        ecologicalService.saveProgramData(ecologicalProgramMapper.fileDtoListToEntityList(data));
+        ecoService.saveProgramData(ecoProgramMapper.fileDtoListToEntityList(data));
 
         return ResponseEntity.ok().build();
     }

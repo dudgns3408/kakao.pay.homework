@@ -6,7 +6,9 @@
 # * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
 # * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
 
-POST http://127.0.0.1:8080/api/ecological/file/read
+
+
+POST http://127.0.0.1:8080/api/eco/file/read
 Content-Type: multipart/form-data; boundary=WebAppBoundary
 
 --WebAppBoundary
@@ -17,12 +19,12 @@ Content-Disposition: form-data; name="file"; filename="sample.csv"
 
 ###
 
-GET http://127.0.0.1:8080/api/ecological/program/111
+GET http://127.0.0.1:8080/api/eco/program/110
 Accept: application/json
 
 ###
 
-POST http://127.0.0.1:8080/api/ecological/program
+POST http://127.0.0.1:8080/api/eco/program
 Content-Type: application/json
 
 {
@@ -34,7 +36,7 @@ Content-Type: application/json
 }
 ###
 
-PUT http://127.0.0.1:8080/api/ecological/program
+PUT http://127.0.0.1:8080/api/eco/program
 Content-Type: application/json
 
 {
@@ -45,5 +47,12 @@ Content-Type: application/json
   "summary": "테스트 요약",
   "description": "테스트 상세"
 }
+
+###
+
+GET http://127.0.0.1:8080/api/eco/programs/%ED%8F%89%EC%B0%BD%EA%B5%B0
+Accept: application/json;
+Content-Type: charset=utf-8;
+
 
 ###

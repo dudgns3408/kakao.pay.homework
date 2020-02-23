@@ -1,4 +1,4 @@
-package com.pay.kakao.homework.entity.ecological;
+package com.pay.kakao.homework.entity.eco;
 
 import com.pay.kakao.homework.entity.common.AuditEntity;
 import lombok.*;
@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter @Setter
 @Builder
-public class EcologicalProgram extends AuditEntity {
+public class EcoProgram extends AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,12 +32,12 @@ public class EcologicalProgram extends AuditEntity {
     @Column(length = 1000)
     private String description;
 
-    public void update(EcologicalProgram modifiedEcologicalProgram) {
-        this.name = modifiedEcologicalProgram.getName();
-        this.serviceRegion = modifiedEcologicalProgram.getServiceRegion();
-        this.summary = modifiedEcologicalProgram.getSummary();
-        this.description = modifiedEcologicalProgram.getDescription();
-        this.themes = modifiedEcologicalProgram.getThemes();
+    public void update(EcoProgram modifiedEcoProgram) {
+        this.name = modifiedEcoProgram.getName();
+        this.serviceRegion = modifiedEcoProgram.getServiceRegion();
+        this.summary = modifiedEcoProgram.getSummary();
+        this.description = modifiedEcoProgram.getDescription();
+        this.themes = modifiedEcoProgram.getThemes();
 //        this.themes.forEach(programThemes -> programThemes.setEcologicalProgram(this));
     }
 

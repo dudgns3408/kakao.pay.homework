@@ -1,4 +1,4 @@
-package com.pay.kakao.homework.controller.ecological.dto;
+package com.pay.kakao.homework.controller.eco.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EcologicalProgramFileDto {
+public class EcoProgramFileDto {
     private String id;
     private String name;
     private String themes;

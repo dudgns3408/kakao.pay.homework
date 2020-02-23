@@ -5,7 +5,7 @@ import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 @Getter
-public enum EcologicalProgramTheme {
+public enum EcoProgramTheme {
     CULTURE_ECOLOGICAL_EXPERIENCE("문화생태체험"),
     NATURE_ECOLOGICAL_EXPERIENCE("자연생태체험"),
     CHILD_YOUTH_EXPERIENCE("아동·청소년 체험학습"),
@@ -23,12 +23,12 @@ public enum EcologicalProgramTheme {
 
     private String description;
 
-    EcologicalProgramTheme(String description) {
+    EcoProgramTheme(String description) {
         this.description = description;
     };
 
-    public static EcologicalProgramTheme of(String description) {
-        for ( EcologicalProgramTheme theme : EcologicalProgramTheme.values() ) {
+    public static EcoProgramTheme of(String description) {
+        for ( EcoProgramTheme theme : EcoProgramTheme.values() ) {
             if (description.equals(theme.getDescription())) {
                 return theme;
             }

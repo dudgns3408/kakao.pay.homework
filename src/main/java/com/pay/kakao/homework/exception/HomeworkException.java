@@ -1,7 +1,9 @@
 package com.pay.kakao.homework.exception;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+@Getter
 public class HomeworkException extends RuntimeException {
     private String errorMessage;
     private HttpStatus status;
