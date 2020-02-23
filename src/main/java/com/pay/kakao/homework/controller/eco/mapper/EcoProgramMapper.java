@@ -4,6 +4,7 @@ import com.pay.kakao.homework.controller.eco.dto.EcoProgramDto;
 import com.pay.kakao.homework.controller.eco.dto.EcoProgramFileDto;
 import com.pay.kakao.homework.entity.eco.EcoProgram;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -13,8 +14,6 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class EcoProgramMapper {
-//    private final ProgramThemesMapper programThemesMapper;
-
     public List<EcoProgram> fileDtoListToEntityList(List<EcoProgramFileDto> list) {
         List<EcoProgram> ecoPrograms = new ArrayList<>();
 
@@ -23,21 +22,13 @@ public class EcoProgramMapper {
         return ecoPrograms;
     }
 
-    public List<EcoProgram> dtoListToEntityList(List<EcoProgramDto> list) {
-        List<EcoProgram> ecoPrograms = new ArrayList<>();
-
-        list.forEach(ecoProgramDto -> ecoPrograms.add(dtoToEntity(ecoProgramDto)));
-
-        return ecoPrograms;
-    }
-
     public EcoProgram fileDtoToEntity(EcoProgramFileDto ecoProgramFileDto) {
         return EcoProgram.builder()
-                .name(ecoProgramFileDto.getName())
-                .description(ecoProgramFileDto.getDescription())
-                .serviceRegion(ecoProgramFileDto.getServiceRegion())
+                .name(StringUtils.trim(ecoProgramFileDto.getName()))
+                .description(ecoProgramFileDto.getDescription().trim())
+                .serviceRegion(StringUtils.trim(ecoProgramFileDto.getServiceRegion().trim()))
                 .summary(ecoProgramFileDto.getSummary())
-                .themes(Arrays.asList(ecoProgramFileDto.getThemes().split(",")))
+                .themes(Arrays.asList(StringUtils.trim(ecoProgramFileDto.getThemes()).split(",")))
                 .build();
     }
 
