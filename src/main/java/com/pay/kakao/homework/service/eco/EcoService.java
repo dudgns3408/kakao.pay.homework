@@ -3,6 +3,7 @@ package com.pay.kakao.homework.service.eco;
 import com.pay.kakao.homework.controller.eco.dto.EcoProgramByRegionDto;
 import com.pay.kakao.homework.controller.eco.dto.EcoProgramCountByRegionDto;
 import com.pay.kakao.homework.controller.eco.dto.EcoProgramKeywordCount;
+import com.pay.kakao.homework.controller.eco.dto.RecommendEcoProgramDto;
 import com.pay.kakao.homework.entity.eco.EcoProgram;
 import com.pay.kakao.homework.exception.HomeworkException;
 import com.pay.kakao.homework.repository.eco.EcoProgramRepository;
@@ -12,9 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -65,7 +66,7 @@ public class EcoService {
     }
 
     private List<EcoProgram> findAllByRegionLike(String region) {
-        return ecologicalProgramRepository.findAllByServiceRegionLike("%" + region + "%");
+        return ecologicalProgramRepository.findAllByServiceRegionLike(makeMiddleLikeSearchStr(region));
     }
 
     public EcoProgramCountByRegionDto getProgramCountByRegion(String summary) {
@@ -87,13 +88,11 @@ public class EcoService {
                         ))
         );
 
-        System.out.println(countByRegionMap.get("summary"));
-
         return countByRegionMap;
     }
 
     private List<EcoProgram> findAllBySummaryLike(String summary) {
-        return ecologicalProgramRepository.findAllBySummaryLike("%" + summary + "%");
+        return ecologicalProgramRepository.findAllBySummaryLike(makeMiddleLikeSearchStr(summary));
     }
 
     public EcoProgramKeywordCount getKeywordCount(String keyword) {
@@ -114,6 +113,35 @@ public class EcoService {
     }
 
     private List<EcoProgram> findAllByDescription(String keyword) {
-        return ecologicalProgramRepository.findAllByDescriptionLike("%" + keyword + "%");
+        return ecologicalProgramRepository.findAllByDescriptionLike(makeMiddleLikeSearchStr(keyword));
+    }
+
+    public RecommendEcoProgramDto getRecommendProgram(String region, String keyword) {
+        return RecommendEcoProgramDto.builder()
+                .program(findRecommendProgramId(region, keyword))
+                .build();
+    }
+
+    private String findRecommendProgramId(String region, String keyword) {
+        List<EcoProgram> ecoPrograms = getRegionOrKeywordContainEcoProgram(region, keyword);
+
+        return findBestScoreEcoProgramId(ecoPrograms, keyword);
+    }
+
+    private String findBestScoreEcoProgramId(List<EcoProgram> ecoPrograms, String keyword) {
+        return ecoPrograms.stream()
+                .max(Comparator.comparingInt(ecoProgram -> ecoProgram.calculateScore(keyword)))
+                .map(EcoProgram::getId)
+                .map(String::valueOf)
+                .orElse("");
+    }
+
+    private List<EcoProgram> getRegionOrKeywordContainEcoProgram(String region, String keyword) {
+        return ecologicalProgramRepository
+                .searchByRegionAndKeyword(makeMiddleLikeSearchStr(region), makeMiddleLikeSearchStr(keyword));
+    }
+
+    private String makeMiddleLikeSearchStr(String word) {
+        return "%" + word + "%";
     }
 }

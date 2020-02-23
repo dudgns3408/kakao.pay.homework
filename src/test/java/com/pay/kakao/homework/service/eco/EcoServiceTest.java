@@ -3,7 +3,9 @@ package com.pay.kakao.homework.service.eco;
 import com.pay.kakao.homework.controller.eco.dto.EcoProgramByRegionDto;
 import com.pay.kakao.homework.controller.eco.dto.EcoProgramCountByRegionDto;
 import com.pay.kakao.homework.controller.eco.dto.EcoProgramKeywordCount;
+import com.pay.kakao.homework.controller.eco.dto.RecommendEcoProgramDto;
 import com.pay.kakao.homework.entity.eco.EcoProgram;
+import com.pay.kakao.homework.enums.EcoProgramColumnWeight;
 import com.pay.kakao.homework.enums.EcoProgramTheme;
 import com.pay.kakao.homework.exception.HomeworkException;
 import com.pay.kakao.homework.repository.eco.EcoProgramRepository;
@@ -174,7 +176,6 @@ class EcoServiceTest {
 
     @Test
     void getKeywordCount() {
-
         ecoService.saveProgramData(programs);
 
         EcoProgramKeywordCount ecoProgramKeywordCount = ecoService.getKeywordCount("desc1");
@@ -187,6 +188,23 @@ class EcoServiceTest {
                 , () -> assertEquals(5, ecoProgramKeywordCount2.getCount())
                 , () -> assertEquals(5, ecoProgramKeywordCount3.getCount())
                 , () -> assertEquals(1, ecoProgramKeywordCount4.getCount())
+        );
+    }
+
+    @Test
+    void getRecommendProgram() {
+        List<EcoProgram> ecoPrograms = ecoService.saveProgramData(programs);
+
+        RecommendEcoProgramDto recommendEcoProgramDto = ecoService.getRecommendProgram("region", "1");
+        RecommendEcoProgramDto recommendEcoProgramDto2 = ecoService.getRecommendProgram("region", "2");
+        RecommendEcoProgramDto recommendEcoProgramDto3 = ecoService.getRecommendProgram("region123", "2");
+        RecommendEcoProgramDto recommendEcoProgramDto4 = ecoService.getRecommendProgram("region", "0");
+
+        assertAll(
+                () -> assertEquals(ecoPrograms.get(0).calculateScore("1") >= ecoPrograms.get(1).calculateScore("1") ? "1" : "2", recommendEcoProgramDto.getProgram())
+                , () -> assertEquals(ecoPrograms.get(0).calculateScore("2") >= ecoPrograms.get(1).calculateScore("2") ? "1" : "2", recommendEcoProgramDto2.getProgram())
+                , () -> assertEquals("", recommendEcoProgramDto3.getProgram())
+                , () -> assertEquals("", recommendEcoProgramDto4.getProgram())
         );
     }
 }

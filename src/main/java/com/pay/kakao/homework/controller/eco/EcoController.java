@@ -60,7 +60,9 @@ public class EcoController {
 
     //todo :: 옵션 문제
     @GetMapping("program/recommendation")
-    public ResponseEntity getRecommendProgram() {
-        return null;
+    public ResponseEntity getRecommendProgram(@RequestParam String region, String keyword) {
+        return ResponseEntity
+                .ok()
+                .body(ecoService.getRecommendProgram(region, keyword));
     }
 }

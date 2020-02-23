@@ -1,9 +1,12 @@
 package com.pay.kakao.homework.entity.eco;
 
 import com.pay.kakao.homework.entity.common.AuditEntity;
+import com.pay.kakao.homework.enums.EcoProgramColumnWeight;
 import lombok.*;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -38,9 +41,12 @@ public class EcoProgram extends AuditEntity {
         this.summary = modifiedEcoProgram.getSummary();
         this.description = modifiedEcoProgram.getDescription();
         this.themes = modifiedEcoProgram.getThemes();
-//        this.themes.forEach(programThemes -> programThemes.setEcologicalProgram(this));
     }
 
-
+    public int calculateScore(String keyword) {
+        return StringUtils.countMatches(Arrays.toString(this.themes.toArray()), keyword) * EcoProgramColumnWeight.THEME_WEIGHT.getWeight()
+                + StringUtils.countMatches(this.summary, keyword) * EcoProgramColumnWeight.SUMMARY_WEIGHT.getWeight()
+                + StringUtils.countMatches(this.description, keyword) * EcoProgramColumnWeight.DESCRIPTION_WEIGHT.getWeight();
+    }
 }
 

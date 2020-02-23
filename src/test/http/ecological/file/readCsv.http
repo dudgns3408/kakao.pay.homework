@@ -64,3 +64,8 @@ GET http://127.0.0.1:8080/api/eco/programs/description/contains/count?keyword=�
 Accept: application/json
 
 ###
+
+GET http://127.0.0.1:8080/api/eco/program/recommendation?region=평창군&keyword=국립공원
+Accept: application/json
+
+###
