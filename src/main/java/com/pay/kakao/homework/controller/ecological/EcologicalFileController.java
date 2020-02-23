@@ -1,6 +1,6 @@
 package com.pay.kakao.homework.controller.ecological;
 
-import com.pay.kakao.homework.controller.ecological.dto.EcologicalProgramDto;
+import com.pay.kakao.homework.controller.ecological.dto.EcologicalProgramFileDto;
 import com.pay.kakao.homework.controller.ecological.mapper.EcologicalProgramMapper;
 import com.pay.kakao.homework.service.ecological.EcologicalService;
 import com.pay.kakao.homework.utils.CSVUtils;
@@ -23,14 +23,14 @@ public class EcologicalFileController {
 
     @PostMapping("read")
     public ResponseEntity readEcologicalList(@RequestParam("file") MultipartFile file) {
-        List<EcologicalProgramDto> data;
+        List<EcologicalProgramFileDto> data;
 
         data = CSVUtils.convertMultipartFileToBeanList(
                 file
-                , EcologicalProgramDto.class
-                , new String[]{"id","name","themes","region","summary","detail"});
+                , EcologicalProgramFileDto.class
+                , new String[]{"id","name","themes","serviceRegion","summary","description"});
 
-        ecologicalService.saveProgramData(ecologicalProgramMapper.dtoListToEntityList(data));
+        ecologicalService.saveProgramData(ecologicalProgramMapper.fileDtoListToEntityList(data));
 
         return ResponseEntity.ok().build();
     }

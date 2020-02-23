@@ -16,3 +16,34 @@ Content-Disposition: form-data; name="file"; filename="sample.csv"
 --WebAppBoundary--
 
 ###
+
+GET http://127.0.0.1:8080/api/ecological/program/111
+Accept: application/json
+
+###
+
+POST http://127.0.0.1:8080/api/ecological/program
+Content-Type: application/json
+
+{
+  "name": "name1",
+  "themes": ["문화생태체험","자연생태체험"],
+  "serviceRegion": "서울시",
+  "summary": "테스트 요약",
+  "description": "테스트 상세"
+}
+###
+
+PUT http://127.0.0.1:8080/api/ecological/program
+Content-Type: application/json
+
+{
+  "id": 111,
+  "name": "name2",
+  "themes": ["문화생태체험","볼거리"],
+  "serviceRegion": "서울시",
+  "summary": "테스트 요약",
+  "description": "테스트 상세"
+}
+
+###

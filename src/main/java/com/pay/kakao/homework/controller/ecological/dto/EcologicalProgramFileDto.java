@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EcologicalProgramDto {
+public class EcologicalProgramFileDto {
     private String id;
     private String name;
-    private String[] themes;
+    private String themes;
     private String serviceRegion;
     private String summary;
     private String description;

@@ -5,6 +5,7 @@ import com.opencsv.CSVReaderBuilder;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.pay.kakao.homework.exception.HomeworkException;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
+@Slf4j
 public class CSVUtils {
     public static <T> List<T> convertMultipartFileToBeanList(MultipartFile file, Class<T> tClass, String[] columnMapping) {
         CSVReader csvReader = getCSVReader(file);
@@ -26,6 +28,7 @@ public class CSVUtils {
         try {
             data = getMakeCsvToBean(csvReader, strategy).parse();
         } catch (Exception e) {
+            log.error("CSV 파일을 변환 에러", e);
             throw new HomeworkException("CSV 파일을 변환하는데 실패했습니다.", HttpStatus.BAD_REQUEST);
         }
 
