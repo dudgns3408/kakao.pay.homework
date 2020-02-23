@@ -128,4 +128,20 @@ class EcoServiceTest {
                 , () -> assertEquals(EcoProgramTheme.FOREST_CURE.name(), modifiedProgram.getThemes().get(0))
         );
     }
+
+    @Test
+    void findAllByRegion() {
+        ecoService.saveProgramData(programs);
+
+        List<EcoProgram> ecoPrograms = ecoService.findAllByRegion("region");
+        List<EcoProgram> ecoPrograms2 = ecoService.findAllByRegion("region1");
+
+        assertAll(
+                () -> assertEquals(2, ecoPrograms.size())
+                , () -> assertTrue(ecoPrograms.get(0).getServiceRegion().contains("region"))
+                , () -> assertTrue(ecoPrograms.get(1).getServiceRegion().contains("region"))
+                , () -> assertEquals(1, ecoPrograms2.size())
+                , () -> assertTrue(ecoPrograms.get(0).getServiceRegion().contains("region1"))
+        );
+    }
 }
