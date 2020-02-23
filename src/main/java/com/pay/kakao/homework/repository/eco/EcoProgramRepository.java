@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface EcoProgramRepository extends JpaRepository<EcoProgram, Long>, CustomEcoProgramRepository {
     List<EcoProgram> findAllByServiceRegionLike(String serviceRegion);
+
+    List<EcoProgram> findAllBySummaryLike(String summary);
 }

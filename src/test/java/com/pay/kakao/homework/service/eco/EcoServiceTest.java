@@ -1,5 +1,7 @@
 package com.pay.kakao.homework.service.eco;
 
+import com.pay.kakao.homework.controller.eco.dto.EcoProgramByRegionDto;
+import com.pay.kakao.homework.controller.eco.dto.EcoProgramRegionCountDto;
 import com.pay.kakao.homework.entity.eco.EcoProgram;
 import com.pay.kakao.homework.enums.EcoProgramTheme;
 import com.pay.kakao.homework.exception.HomeworkException;
@@ -10,6 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -133,15 +136,39 @@ class EcoServiceTest {
     void findAllByRegion() {
         ecoService.saveProgramData(programs);
 
-        List<EcoProgram> ecoPrograms = ecoService.findAllByRegion("region");
-        List<EcoProgram> ecoPrograms2 = ecoService.findAllByRegion("region1");
+        EcoProgramByRegionDto ecoProgramByRegionDto = ecoService.getProgramsByRegion("region");
+        EcoProgramByRegionDto ecoProgramByRegionDto2 = ecoService.getProgramsByRegion("region1");
+        EcoProgramByRegionDto ecoProgramByRegionDto3 = ecoService.getProgramsByRegion("region123");
 
         assertAll(
-                () -> assertEquals(2, ecoPrograms.size())
-                , () -> assertTrue(ecoPrograms.get(0).getServiceRegion().contains("region"))
-                , () -> assertTrue(ecoPrograms.get(1).getServiceRegion().contains("region"))
-                , () -> assertEquals(1, ecoPrograms2.size())
-                , () -> assertTrue(ecoPrograms.get(0).getServiceRegion().contains("region1"))
+                () -> assertFalse(ecoProgramByRegionDto.getPrograms().isEmpty())
+                , () -> assertEquals(2, ecoProgramByRegionDto.getPrograms().size())
+                , () -> assertEquals("name1", ecoProgramByRegionDto.getPrograms().get(0).getPrgmName())
+                , () -> assertEquals("name2", ecoProgramByRegionDto.getPrograms().get(1).getPrgmName())
+                , () -> assertFalse(ecoProgramByRegionDto2.getPrograms().isEmpty())
+                , () -> assertEquals(1, ecoProgramByRegionDto2.getPrograms().size())
+                , () -> assertEquals("name1", ecoProgramByRegionDto2.getPrograms().get(0).getPrgmName())
+                , () -> assertTrue(ecoProgramByRegionDto3.getPrograms().isEmpty())
+        );
+    }
+
+    @Test
+    void getProgramCountByRegion() {
+        ecoService.saveProgramData(programs);
+
+        EcoProgramRegionCountDto ecoProgramRegionCountDto = ecoService.getProgramCountByRegion("summary");
+        EcoProgramRegionCountDto ecoProgramRegionCountDto2 = ecoService.getProgramCountByRegion("summary1");
+        EcoProgramRegionCountDto ecoProgramRegionCountDto3 = ecoService.getProgramCountByRegion("summary123");
+
+        assertAll(
+                () -> assertFalse(ecoProgramRegionCountDto.getPrograms().isEmpty())
+                , () -> assertEquals(2, ecoProgramRegionCountDto.getPrograms().size())
+                , () -> assertEquals(1, ecoProgramRegionCountDto.getPrograms().get(0).getCount())
+                , () -> assertEquals(1, ecoProgramRegionCountDto.getPrograms().get(1).getCount())
+                , () -> assertFalse(ecoProgramRegionCountDto2.getPrograms().isEmpty())
+                , () -> assertEquals(1, ecoProgramRegionCountDto2.getPrograms().size())
+                , () -> assertEquals(1, ecoProgramRegionCountDto2.getPrograms().get(0).getCount())
+                , () -> assertTrue(ecoProgramRegionCountDto3.getPrograms().isEmpty())
         );
     }
 }

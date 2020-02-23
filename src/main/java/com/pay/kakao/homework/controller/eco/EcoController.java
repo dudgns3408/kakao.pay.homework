@@ -1,6 +1,5 @@
 package com.pay.kakao.homework.controller.eco;
 
-import com.pay.kakao.homework.controller.eco.dto.EcoProgramByRegionDto;
 import com.pay.kakao.homework.controller.eco.dto.EcoProgramDto;
 import com.pay.kakao.homework.controller.eco.mapper.EcoProgramMapper;
 import com.pay.kakao.homework.service.eco.EcoService;
@@ -40,24 +39,20 @@ public class EcoController {
 
     @GetMapping("programs/region/contains")
     public ResponseEntity getProgramsByRegion(@RequestParam String region) {
-        //fixme :: region을 코드로 변경하는 작업 필요
-        EcoProgramByRegionDto ecoProgramByRegionDto = EcoProgramByRegionDto.builder()
-                .region(region)
-                .build();
-        ecoProgramByRegionDto.addPrograms(ecoService.findAllByRegion(region));
-
         return ResponseEntity
                 .ok()
-                .body(ecoProgramByRegionDto);
+                .body(ecoService.getProgramsByRegion(region));
     }
 
-    @GetMapping("programs/summary/{keyword}/region/count")
-    public ResponseEntity getProgramRegionCountBySummary(@PathVariable String keyword) {
-        return null;
+    @GetMapping("programs/summary/contains/count")
+    public ResponseEntity getProgramRegionCountBySummary(@RequestParam String keyword) {
+        return ResponseEntity
+                .ok()
+                .body(ecoService.getProgramCountByRegion(keyword));
     }
 
     @GetMapping("programs/description/{keyword}/count")
-    public ResponseEntity getKeywordCountByDescription(@PathVariable String keyword) {
+    public ResponseEntity getKeywordCountByDescription(@RequestParam String keyword) {
         return null;
     }
 

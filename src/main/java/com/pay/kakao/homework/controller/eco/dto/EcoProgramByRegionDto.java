@@ -27,9 +27,3 @@ public class EcoProgramByRegionDto {
     }
 }
 
-@Getter
-@Builder
-class EcoProgramByRegion {
-    private String prgmName;
-    private String theme;
-}
