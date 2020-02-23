@@ -58,7 +58,6 @@ public class EcoController {
                 .body(ecoService.getKeywordCount(keyword));
     }
 
-    //todo :: 옵션 문제
     @GetMapping("program/recommendation")
     public ResponseEntity getRecommendProgram(@RequestParam String region, String keyword) {
         return ResponseEntity
