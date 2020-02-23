@@ -14,7 +14,7 @@ Content-Type: multipart/form-data; boundary=WebAppBoundary
 --WebAppBoundary
 Content-Disposition: form-data; name="file"; filename="sample.csv"
 
-< ../sample.csv
+< /Users/martin/Downloads/sample.csv
 --WebAppBoundary--
 
 ###
