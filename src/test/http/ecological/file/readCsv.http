@@ -55,7 +55,12 @@ Accept: application/json
 
 ###
 
-GET http://127.0.0.1:8080/api/eco/programs/summary/contains/count?keyword=소나무
+GET http://127.0.0.1:8080/api/eco/programs/summary/contains/region/count?keyword=소나무
+Accept: application/json
+
+###
+
+GET http://127.0.0.1:8080/api/eco/programs/description/contains/count?keyword=설악산
 Accept: application/json
 
 ###

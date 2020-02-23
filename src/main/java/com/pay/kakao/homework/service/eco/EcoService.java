@@ -1,19 +1,20 @@
 package com.pay.kakao.homework.service.eco;
 
 import com.pay.kakao.homework.controller.eco.dto.EcoProgramByRegionDto;
-import com.pay.kakao.homework.controller.eco.dto.EcoProgramRegionCountDto;
+import com.pay.kakao.homework.controller.eco.dto.EcoProgramCountByRegionDto;
+import com.pay.kakao.homework.controller.eco.dto.EcoProgramKeywordCount;
 import com.pay.kakao.homework.entity.eco.EcoProgram;
 import com.pay.kakao.homework.exception.HomeworkException;
 import com.pay.kakao.homework.repository.eco.EcoProgramRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,26 +59,26 @@ public class EcoService {
         EcoProgramByRegionDto ecoProgramByRegionDto = EcoProgramByRegionDto.builder()
                 .region(region)
                 .build();
-        ecoProgramByRegionDto.addPrograms(findAllByRegion(region));
+        ecoProgramByRegionDto.addPrograms(findAllByRegionLike(region));
 
         return ecoProgramByRegionDto;
     }
 
-    private List<EcoProgram> findAllByRegion(String region) {
+    private List<EcoProgram> findAllByRegionLike(String region) {
         return ecologicalProgramRepository.findAllByServiceRegionLike("%" + region + "%");
     }
 
-    public EcoProgramRegionCountDto getProgramCountByRegion(String summary) {
-        EcoProgramRegionCountDto ecoProgramRegionCountDto = EcoProgramRegionCountDto.builder()
+    public EcoProgramCountByRegionDto getProgramCountByRegion(String summary) {
+        EcoProgramCountByRegionDto ecoProgramCountByRegionDto = EcoProgramCountByRegionDto.builder()
                 .keyword(summary)
                 .build();
-        ecoProgramRegionCountDto.addPrograms(getCountByRegionMap(summary));
+        ecoProgramCountByRegionDto.addPrograms(getCountByRegionMap(summary));
 
-        return ecoProgramRegionCountDto;
+        return ecoProgramCountByRegionDto;
     }
 
     private Map<String, Integer> getCountByRegionMap(String summary) {
-        List<EcoProgram> ecoPrograms = findAllBySummary(summary);
+        List<EcoProgram> ecoPrograms = findAllBySummaryLike(summary);
 
         Map<String, Integer> countByRegionMap = ecoPrograms.stream().collect(
                 Collectors.groupingBy(EcoProgram::getServiceRegion,
@@ -91,7 +92,28 @@ public class EcoService {
         return countByRegionMap;
     }
 
-    private List<EcoProgram> findAllBySummary(String summary) {
+    private List<EcoProgram> findAllBySummaryLike(String summary) {
         return ecologicalProgramRepository.findAllBySummaryLike("%" + summary + "%");
+    }
+
+    public EcoProgramKeywordCount getKeywordCount(String keyword) {
+        List<EcoProgram> ecoPrograms = findAllByDescription(keyword);
+
+        return EcoProgramKeywordCount.builder()
+                .keyword(keyword)
+                .count(calculateKeywordCount(keyword, ecoPrograms))
+                .build();
+    }
+
+    private int calculateKeywordCount(String keyword, List<EcoProgram> ecoPrograms) {
+        return ecoPrograms.stream()
+                .map(EcoProgram::getDescription)
+                .filter(s -> s.contains(keyword))
+                .mapToInt(s -> StringUtils.countMatches(s, keyword))
+                .sum();
+    }
+
+    private List<EcoProgram> findAllByDescription(String keyword) {
+        return ecologicalProgramRepository.findAllByDescriptionLike("%" + keyword + "%");
     }
 }

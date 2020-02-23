@@ -9,9 +9,9 @@ import java.util.Map;
 
 @Builder
 @Getter
-public class EcoProgramRegionCountDto {
+public class EcoProgramCountByRegionDto {
     private String keyword;
-    private List<EcoProgramRegionCount> programs;
+    private List<EcoProgramCountByRegion> programs;
 
     public void addPrograms(Map<String, Integer> regionCountMap) {
         if ( programs == null ) {
@@ -19,7 +19,7 @@ public class EcoProgramRegionCountDto {
         }
 
         for (String key : regionCountMap.keySet()) {
-            programs.add(EcoProgramRegionCount.builder()
+            programs.add(EcoProgramCountByRegion.builder()
                     .region(key)
                     .count(regionCountMap.get(key))
                     .build());

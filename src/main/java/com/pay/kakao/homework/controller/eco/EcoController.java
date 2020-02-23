@@ -44,16 +44,18 @@ public class EcoController {
                 .body(ecoService.getProgramsByRegion(region));
     }
 
-    @GetMapping("programs/summary/contains/count")
+    @GetMapping("programs/summary/contains/region/count")
     public ResponseEntity getProgramRegionCountBySummary(@RequestParam String keyword) {
         return ResponseEntity
                 .ok()
                 .body(ecoService.getProgramCountByRegion(keyword));
     }
 
-    @GetMapping("programs/description/{keyword}/count")
+    @GetMapping("programs/description/contains/count")
     public ResponseEntity getKeywordCountByDescription(@RequestParam String keyword) {
-        return null;
+        return ResponseEntity
+                .ok()
+                .body(ecoService.getKeywordCount(keyword));
     }
 
     //todo :: 옵션 문제

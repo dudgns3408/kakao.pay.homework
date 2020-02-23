@@ -9,4 +9,6 @@ public interface EcoProgramRepository extends JpaRepository<EcoProgram, Long>, C
     List<EcoProgram> findAllByServiceRegionLike(String serviceRegion);
 
     List<EcoProgram> findAllBySummaryLike(String summary);
+
+    List<EcoProgram> findAllByDescriptionLike(String s);
 }
