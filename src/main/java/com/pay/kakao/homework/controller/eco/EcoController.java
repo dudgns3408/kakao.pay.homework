@@ -38,8 +38,8 @@ public class EcoController {
                         ecoService.modifyProgram(ecoProgramMapper.dtoToEntity(ecoProgramDto))));
     }
 
-    @GetMapping("programs/{region}")
-    public ResponseEntity getProgramsByRegion(@PathVariable String region) {
+    @GetMapping("programs/region/contains")
+    public ResponseEntity getProgramsByRegion(@RequestParam String region) {
         //fixme :: region을 코드로 변경하는 작업 필요
         EcoProgramByRegionDto ecoProgramByRegionDto = EcoProgramByRegionDto.builder()
                 .region(region)

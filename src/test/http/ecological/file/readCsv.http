@@ -50,9 +50,7 @@ Content-Type: application/json
 
 ###
 
-GET http://127.0.0.1:8080/api/eco/programs/%ED%8F%89%EC%B0%BD%EA%B5%B0
-Accept: application/json;
-Content-Type: charset=utf-8;
-
+GET http://127.0.0.1:8080/api/eco/programs/region/contains?region=평창군
+Accept: application/json
 
 ###
