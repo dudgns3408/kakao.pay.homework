@@ -7,5 +7,5 @@ import lombok.Getter;
 @Getter
 public class EcoProgramCountByRegion {
     public String region;
-    private int count;
+    private long count;
 }

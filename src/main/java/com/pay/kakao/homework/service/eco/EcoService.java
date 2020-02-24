@@ -78,17 +78,11 @@ public class EcoService {
         return ecoProgramCountByRegionDto;
     }
 
-    private Map<String, Integer> getCountByRegionMap(String summary) {
+    private Map<String, Long> getCountByRegionMap(String summary) {
         List<EcoProgram> ecoPrograms = findAllBySummaryLike(summary);
 
-        Map<String, Integer> countByRegionMap = ecoPrograms.stream().collect(
-                Collectors.groupingBy(EcoProgram::getServiceRegion,
-                        Collectors.collectingAndThen(
-                                Collectors.mapping(EcoProgram::getServiceRegion, Collectors.toList()), List::size
-                        ))
-        );
-
-        return countByRegionMap;
+        return ecoPrograms.stream()
+                .collect(Collectors.groupingBy(EcoProgram::getServiceRegion, Collectors.counting()));
     }
 
     private List<EcoProgram> findAllBySummaryLike(String summary) {

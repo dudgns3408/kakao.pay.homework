@@ -13,7 +13,7 @@ public class EcoProgramCountByRegionDto {
     private String keyword;
     private List<EcoProgramCountByRegion> programs;
 
-    public void addPrograms(Map<String, Integer> regionCountMap) {
+    public void addPrograms(Map<String, Long> regionCountMap) {
         if ( programs == null ) {
             programs = new ArrayList<>();
         }
